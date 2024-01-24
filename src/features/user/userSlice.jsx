@@ -2,18 +2,22 @@ import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
 const themes = {
-  cupcake: "cupcake",
+  pastel: "pastel",
   forest: "forest",
 };
 
+const getUserFromLocalStorage = () => {
+  return JSON.parse(localStorage.getItem("user")) || null;
+};
+
 const getThemeFromLocalStorage = () => {
-  const theme = localStorage.getItem("theme") || themes.cupcake;
+  const theme = localStorage.getItem("theme") || themes.pastel;
   document.documentElement.setAttribute("data-theme", theme);
   return theme;
 };
 
 const initialState = {
-  user: { username: "coding addict" },
+  user: getUserFromLocalStorage(),
   theme: getThemeFromLocalStorage(),
 };
 
@@ -22,7 +26,9 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     loginUser: (state, action) => {
-      console.log("login");
+      const user = { ...action.payload.user, token: action.payload.jwt };
+      state.user = user;
+      localStorage.setItem("user", JSON.stringify(user));
     },
     logoutUser: (state) => {
       state.user = null;
@@ -30,8 +36,8 @@ const userSlice = createSlice({
       toast.success("Logged out successfully");
     },
     toggleTheme: (state) => {
-      const { cupcake, forest } = themes;
-      state.theme = state.theme === cupcake ? forest : cupcake;
+      const { pastel, forest } = themes;
+      state.theme = state.theme === pastel ? forest : pastel;
       document.documentElement.setAttribute("data-theme", state.theme);
       localStorage.setItem("theme", state.theme);
     },
