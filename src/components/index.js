@@ -12,6 +12,8 @@ export { default as ProductsContainer } from './ProductsContainer.jsx'
 export { default as Loading } from './Loading.jsx'
 export { default as CartTotals } from './CartTotals.jsx'
 export { default as CartItemsList } from './CartItemsList.jsx'
+export { default as CheckoutForm } from './CheckoutForm.jsx'
+
 
 
 
